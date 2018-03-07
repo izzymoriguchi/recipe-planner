@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:scrollbars="none">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        tools:context="edu.sjsu.izzymoriguchi.myapplication.NewDishActivity">
+
+        <EditText
+            android:id="@+id/recipe_name"
+            style="@style/Widget.AppCompat.EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="13dp"
+            android:ems="10"
+            android:hint="Enter Recipe Name"
+            android:inputType="textPersonName" />
+
+        <ImageView
+            android:id="@+id/recipe_icon"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@+id/recipe_name"
+            android:layout_marginStart="30dp"
+            app:srcCompat="@drawable/default_new_dish_icon" />
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_above="@+id/ingredients_and_add_item_container"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="38dp"
+            android:layout_toEndOf="@+id/recipe_icon"
+            android:onClick="setRecipeIcon"
+            app:srcCompat="@drawable/add_pic" />
+
+        <TextView
+            android:id="@+id/ingredients_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/recipe_icon"
+            android:text="Ingredients"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:id="@+id/ingredients_and_add_item_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/recipe_icon"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/add_new_item_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="6"
+                android:hint="Enter new item"
+                android:inputType="text" />
+
+            <Button
+                android:id="@+id/add_new_item_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:layout_marginLeft="5dp"
+                android:text="Add this item"
+                android:onClick="inputNewItem"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/item1_spinner_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/spinner_border"
+            android:layout_below="@+id/ingredients_and_add_item_container">
+
+            <Spinner
+                android:id="@+id/item1_spinner"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3" />
+            <EditText
+                android:id="@+id/item1_spinner_qty"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="6"
+                android:hint="Qty"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/item1_spinner_unit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:hint="Unit"
+                android:layout_weight="0.8" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/item2_spinner_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/spinner_border"
+            android:layout_below="@+id/item1_spinner_container">
+
+            <Spinner
+                android:id="@+id/item2_spinner"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3" />
+            <EditText
+                android:id="@+id/item2_spinner_qty"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="6"
+                android:hint="Qty"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/item2_spinner_unit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:hint="Unit"
+                android:layout_weight="0.8" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/item3_spinner_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/spinner_border"
+            android:layout_below="@+id/item2_spinner_container">
+
+            <Spinner
+                android:id="@+id/item3_spinner"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3" />
+            <EditText
+                android:id="@+id/item3_spinner_qty"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="6"
+                android:hint="Qty"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/item3_spinner_unit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:hint="Unit"
+                android:layout_weight="0.8" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/item4_spinner_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/spinner_border"
+            android:layout_below="@+id/item3_spinner_container">
+
+            <Spinner
+                android:id="@+id/item4_spinner"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3" />
+            <EditText
+                android:id="@+id/item4_spinner_qty"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="6"
+                android:hint="Qty"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/item4_spinner_unit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:hint="Unit"
+                android:layout_weight="0.8" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/item5_spinner_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/spinner_border"
+            android:layout_below="@+id/item4_spinner_container">
+
+            <Spinner
+                android:id="@+id/item5_spinner"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3" />
+            <EditText
+                android:id="@+id/item5_spinner_qty"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="6"
+                android:hint="Qty"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/item5_spinner_unit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:hint="Unit"
+                android:layout_weight="0.8" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/item6_spinner_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/spinner_border"
+            android:layout_below="@+id/item5_spinner_container">
+
+            <Spinner
+                android:id="@+id/item6_spinner"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3" />
+            <EditText
+                android:id="@+id/item6_spinner_qty"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="6"
+                android:hint="Qty"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/item6_spinner_unit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:hint="Unit"
+                android:layout_weight="0.8" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/item7_spinner_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/spinner_border"
+            android:layout_below="@+id/item6_spinner_container">
+
+            <Spinner
+                android:id="@+id/item7_spinner"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3" />
+            <EditText
+                android:id="@+id/item7_spinner_qty"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="6"
+                android:hint="Qty"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/item7_spinner_unit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:hint="Unit"
+                android:layout_weight="0.8" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/item8_spinner_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/spinner_border"
+            android:layout_below="@+id/item7_spinner_container">
+
+            <Spinner
+                android:id="@+id/item8_spinner"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3" />
+            <EditText
+                android:id="@+id/item8_spinner_qty"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="6"
+                android:hint="Qty"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/item8_spinner_unit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:hint="Unit"
+                android:layout_weight="0.8" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/item9_spinner_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/spinner_border"
+            android:layout_below="@+id/item8_spinner_container">
+
+            <Spinner
+                android:id="@+id/item9_spinner"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3" />
+            <EditText
+                android:id="@+id/item9_spinner_qty"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="6"
+                android:hint="Qty"
+                android:inputType="text" />
+            <EditText
+                android:id="@+id/item9_spinner_unit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:hint="Unit"
+                android:layout_weight="0.8" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/item10_spinner_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/spinner_border"
+            android:layout_below="@+id/item9_spinner_container">
+
+            <Spinner
+                android:id="@+id/item10_spinner"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3" />
+            <EditText
+                android:id="@+id/item10_spinner_qty"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="6"
+                android:hint="Qty"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/item10_spinner_unit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:hint="Unit"
+                android:layout_weight="0.8" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/direction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:layout_marginTop="10dp"
+            android:hint="Add direction"
+            android:layout_below="@+id/item10_spinner_container"
+            android:maxLength="250"/>
+
+        <Button
+            android:id="@+id/save_new_dish_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:layout_marginTop="10dp"
+            android:text="Save this recipe"
+            android:layout_below="@+id/direction"
+            android:onClick="saveNewDish"/>
+    </RelativeLayout>
+
+</ScrollView>
+
