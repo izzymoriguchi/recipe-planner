@@ -45,19 +45,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void showPopupInfo(View view) {
         RelativeLayout layout = findViewById(R.id.relative_layout);
-        //instantiate the popup.xml layout file
         LayoutInflater layoutInflater = (LayoutInflater) MainActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View customView = layoutInflater.inflate(R.layout.popup,null);
 
         Button closePopupBtn = (Button) customView.findViewById(R.id.closePopupBtn);
 
-        //instantiate popup window
         final PopupWindow popupWindow = new PopupWindow(customView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        //display the popup window
         popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
-        //close the popup window on button click
         closePopupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
