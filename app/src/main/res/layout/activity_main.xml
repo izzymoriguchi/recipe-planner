@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context="edu.sjsu.izzymoriguchi.myapplication.MainActivity">
+    tools:context="edu.sjsu.izzymoriguchi.myapplication.MainActivity"
+    android:id="@+id/relative_layout">
 
 
     <ImageView
@@ -15,7 +16,8 @@
         android:layout_height="192dp"
         android:layout_marginBottom="13dp"
         android:layout_alignParentTop="true"
-        app:srcCompat="@drawable/banner" />
+        app:srcCompat="@drawable/banner"
+        android:onClick="showPopupInfo"/>
 
     <GridLayout
         android:id="@+id/icon_grid"
