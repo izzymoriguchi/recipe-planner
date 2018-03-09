@@ -2,6 +2,7 @@ package edu.sjsu.izzymoriguchi.myapplication;
 
 
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -75,10 +76,10 @@ public class LandscapeFragment extends Fragment {
 
 
                     RelativeLayout.LayoutParams paramsForIngredients = (RelativeLayout.LayoutParams) layoutForIngredients.getLayoutParams();
-                    ArrayList<String> recipeIngredients = selectedRecipe.getListOfItemName();
-                    for (int j = 0; j < recipeIngredients.size(); j++) {
+                    String[] recipeIngredients = selectedRecipe.getListOfItemName();
+                    for (int j = 0; j < recipeIngredients.length; j++) {
                         TextView textView = new TextView(view.getContext());
-                        textView.setText(recipeIngredients.get(j));
+                        textView.setText(recipeIngredients[j]);
                         layoutForIngredients.addView(textView, paramsForIngredients);
                     }
 
@@ -89,6 +90,20 @@ public class LandscapeFragment extends Fragment {
                     recipeDirection.setText(selectedRecipe.getDirection());
                     layoutForRecipeDirection.addView(recipeDirection, paramsForRecipeDirection);
 
+                }
+            });
+
+            myListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    NewDishModel recipeToBeEdited = meals.get(i);
+                    Bundle dataToBeSent = new Bundle();
+                    Intent intent = new Intent(getActivity(), EditMealActivity.class);
+                    dataToBeSent.putInt("ITEM_INDEX", i);
+                    dataToBeSent.putBundle("LIST_OF_RECIPES", bundle);
+                    intent.putExtras(dataToBeSent);
+                    startActivity(intent);
+                    return true;
                 }
             });
 

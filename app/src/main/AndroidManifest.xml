@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.sjsu.izzymoriguchi.myapplication">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,9 +22,8 @@
         <activity android:name=".RecipesActivity" />
         <activity android:name=".GroceriesActivity" />
         <activity android:name=".MealsActivity" />
-        <activity android:name=".NewItemActivity"></activity>
-
+        <activity android:name=".NewItemActivity" />
+        <activity android:name=".EditMealActivity"></activity>
     </application>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 </manifest>

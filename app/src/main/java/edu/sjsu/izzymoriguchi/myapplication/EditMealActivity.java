@@ -29,7 +29,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-public class NewDishActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class EditMealActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     public static String filename = "recipes.ser";
     private ArrayList<String> items;
     private ArrayAdapter<String> dataAdapter;
@@ -37,12 +37,21 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
     static final String SPINNER_ITEMS_STATE = "spinnerItemState";
     private NewDishModel newDishData;
     private boolean hasDuplicate;
+    private int index;
     private static final int PHOTO_PICKER_ID = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_dish);
+
+        Intent myIntent = getIntent();
+        Bundle mydata = myIntent.getExtras();
+
+        index = mydata.getInt("ITEM_INDEX");
+        Bundle bundleOfMealData = mydata.getBundle("LIST_OF_RECIPES");
+        MealList mealList = (MealList) bundleOfMealData.getSerializable(RecipesActivity.MEAL_DATA_KEY);
+        newDishData = mealList.getListOfMeals().get(index);
 
         spinners[0] = (Spinner) findViewById(R.id.item1_spinner);
         spinners[1] = (Spinner) findViewById(R.id.item2_spinner);
@@ -54,7 +63,6 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
         spinners[7] = (Spinner) findViewById(R.id.item8_spinner);
         spinners[8] = (Spinner) findViewById(R.id.item9_spinner);
         spinners[9] = (Spinner) findViewById(R.id.item10_spinner);
-
 
         // Spinner Drop down elements
         items = new ArrayList<String>();
@@ -78,10 +86,9 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
             ex.printStackTrace();
         }
 
-        newDishData = new NewDishModel();
-
         EditText recipeName = (EditText) findViewById(R.id.recipe_name);
-        recipeName.addTextChangedListener(new GenericTextWatcher(recipeName));
+        recipeName.setText(newDishData.getNameOfDish());
+        recipeName.addTextChangedListener(new EditMealActivity.GenericTextWatcher(recipeName));
 
         EditText qty1 = (EditText) findViewById(R.id.item1_spinner_qty);
         EditText qty2 = (EditText) findViewById(R.id.item2_spinner_qty);
@@ -94,16 +101,16 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
         EditText qty9 = (EditText) findViewById(R.id.item9_spinner_qty);
         EditText qty10 = (EditText) findViewById(R.id.item10_spinner_qty);
 
-        qty1.addTextChangedListener(new GenericTextWatcher(qty1));
-        qty2.addTextChangedListener(new GenericTextWatcher(qty2));
-        qty3.addTextChangedListener(new GenericTextWatcher(qty3));
-        qty4.addTextChangedListener(new GenericTextWatcher(qty4));
-        qty5.addTextChangedListener(new GenericTextWatcher(qty5));
-        qty6.addTextChangedListener(new GenericTextWatcher(qty6));
-        qty7.addTextChangedListener(new GenericTextWatcher(qty7));
-        qty8.addTextChangedListener(new GenericTextWatcher(qty8));
-        qty9.addTextChangedListener(new GenericTextWatcher(qty9));
-        qty10.addTextChangedListener(new GenericTextWatcher(qty10));
+        qty1.addTextChangedListener(new EditMealActivity.GenericTextWatcher(qty1));
+        qty2.addTextChangedListener(new EditMealActivity.GenericTextWatcher(qty2));
+        qty3.addTextChangedListener(new EditMealActivity.GenericTextWatcher(qty3));
+        qty4.addTextChangedListener(new EditMealActivity.GenericTextWatcher(qty4));
+        qty5.addTextChangedListener(new EditMealActivity.GenericTextWatcher(qty5));
+        qty6.addTextChangedListener(new EditMealActivity.GenericTextWatcher(qty6));
+        qty7.addTextChangedListener(new EditMealActivity.GenericTextWatcher(qty7));
+        qty8.addTextChangedListener(new EditMealActivity.GenericTextWatcher(qty8));
+        qty9.addTextChangedListener(new EditMealActivity.GenericTextWatcher(qty9));
+        qty10.addTextChangedListener(new EditMealActivity.GenericTextWatcher(qty10));
 
         EditText unit1 = (EditText) findViewById(R.id.item1_spinner_unit);
         EditText unit2 = (EditText) findViewById(R.id.item2_spinner_unit);
@@ -116,20 +123,21 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
         EditText unit9 = (EditText) findViewById(R.id.item9_spinner_unit);
         EditText unit10 = (EditText) findViewById(R.id.item10_spinner_unit);
 
-        unit1.addTextChangedListener(new GenericTextWatcher(unit1));
-        unit1.addTextChangedListener(new GenericTextWatcher(unit2));
-        unit1.addTextChangedListener(new GenericTextWatcher(unit3));
-        unit1.addTextChangedListener(new GenericTextWatcher(unit4));
-        unit1.addTextChangedListener(new GenericTextWatcher(unit5));
-        unit1.addTextChangedListener(new GenericTextWatcher(unit6));
-        unit1.addTextChangedListener(new GenericTextWatcher(unit7));
-        unit1.addTextChangedListener(new GenericTextWatcher(unit8));
-        unit1.addTextChangedListener(new GenericTextWatcher(unit9));
-        unit1.addTextChangedListener(new GenericTextWatcher(unit10));
+        unit1.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit1));
+        unit1.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit2));
+        unit1.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit3));
+        unit1.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit4));
+        unit1.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit5));
+        unit1.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit6));
+        unit1.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit7));
+        unit1.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit8));
+        unit1.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit9));
+        unit1.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit10));
 
         EditText directionOfRecipe = (EditText) findViewById(R.id.direction);
-        directionOfRecipe.addTextChangedListener(new GenericTextWatcher(directionOfRecipe));
+        directionOfRecipe.addTextChangedListener(new EditMealActivity.GenericTextWatcher(directionOfRecipe));
 
+        // Creating adapter for spinner
         dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items) {
             @Override
             public boolean isEnabled(int position) {
@@ -164,10 +172,19 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
             spinners[i].setOnItemSelectedListener(this);
         }
 
+        String[] itemNames = newDishData.getListOfItemName();
+        for (int j = 0; j < itemNames.length; j++) {
+            if (itemNames[j] != null) {
+                int spinnerPosition = dataAdapter.getPosition(itemNames[j]);
+                spinners[j].setSelection(spinnerPosition);
+            }
+        }
+
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
         int spinnerIndex = 0;
 
         for (int k = 0; k < spinners.length; k++) {
@@ -175,6 +192,7 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
                 spinnerIndex = k;
             }
         }
+
         String item = adapterView.getItemAtPosition(i).toString();
         Toast.makeText(adapterView.getContext(),
                 "Selected position : " + i, Toast.LENGTH_SHORT).show();
@@ -193,6 +211,7 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
         items.add(newIngredient);
     }
 
+
     public void saveNewDish(View view) {
         FileInputStream ifile = null;
         ObjectInputStream in = null;
@@ -205,11 +224,6 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
             return;
         }
 
-        /* Use this line to delete file ------------------------------------------------
-        this.deleteFile(filename);
-
-        -------------------------------------------------------------------------------*/
-
 
         try { // if previously saved, load it first
             ifile = new FileInputStream(this.getFilesDir() + File.separator + filename);
@@ -217,7 +231,8 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
             in = new ObjectInputStream(ifile);
             lstOfMeals = (MealList) in.readObject();
             meals = lstOfMeals.getListOfMeals();
-            meals.add(newDishData);
+            meals.remove(index); // TODO: Make sure if this works
+            meals.add(index, newDishData);
             in.close();
             try {
                 FileOutputStream fileOutputStream = openFileOutput(filename, Context.MODE_PRIVATE);
@@ -231,25 +246,10 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } catch (FileNotFoundException e) { // adding a recipe for the first time
-            lstOfMeals = new MealList();
-            meals = new ArrayList<>();
-            meals.add(newDishData);
-            lstOfMeals.setListOfMeals(meals);
-            try {
-                FileOutputStream fileOutputStream = openFileOutput(filename, Context.MODE_PRIVATE);
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-                objectOutputStream.writeObject(lstOfMeals);
-                objectOutputStream.close();
-                fileOutputStream.close();
-            } catch (IOException ex) {
-                e.printStackTrace();
-            }
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        Toast.makeText(this, "Added " + newDishData.getNameOfDish(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Modified " + newDishData.getNameOfDish(), Toast.LENGTH_SHORT).show();
         finish(); // close the activity
 
     }
@@ -261,6 +261,7 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
         intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
         startActivityForResult(Intent.createChooser(intent, "Complete action using"), PHOTO_PICKER_ID);
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -288,9 +289,11 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
                         newDishData.setNameOfDish(text);
                         hasDuplicate = false;
                     } else {
-                        EditText recipeName = (EditText) view;
-                        recipeName.setError(text + " already exists");
-                        hasDuplicate = true;
+                        if (!text.equals(newDishData.getNameOfDish())) {
+                            EditText recipeName = (EditText) view;
+                            recipeName.setError(text + " already exists");
+                            hasDuplicate = true;
+                        }
                     }
                     break;
                 case R.id.item1_spinner_qty:
@@ -358,24 +361,24 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
                     break;
             }
         }
-    }
 
-    public boolean doRecipeNameExist(String recipeName) {
-        try {
-            FileInputStream ifile = new FileInputStream(getFilesDir() + File.separator + filename);
-            ObjectInputStream in = new ObjectInputStream(ifile);
-            MealList lstOfMeals = (MealList) in.readObject();
-            ArrayList<NewDishModel> meals = lstOfMeals.getListOfMeals();
-            for (int i = 0; i < meals.size(); i++) {
-                if (meals.get(i).getNameOfDish().equals(recipeName)) {
-                    return true;
+        public boolean doRecipeNameExist(String recipeName) {
+            try {
+                FileInputStream ifile = new FileInputStream(getFilesDir() + File.separator + filename);
+                ObjectInputStream in = new ObjectInputStream(ifile);
+                MealList lstOfMeals = (MealList) in.readObject();
+                ArrayList<NewDishModel> meals = lstOfMeals.getListOfMeals();
+                for (int i = 0; i < meals.size(); i++) {
+                    if (meals.get(i).getNameOfDish().equals(recipeName)) {
+                        return true;
+                    }
                 }
-            }
-            in.close();
+                in.close();
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return false;
         }
-        return false;
     }
 }

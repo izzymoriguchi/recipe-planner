@@ -3,12 +3,14 @@ package edu.sjsu.izzymoriguchi.myapplication;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -42,7 +44,7 @@ public class PortraitFragment extends Fragment {
             Log.d("RetainedFragment " , "is retained in portrait view");
             bundle = retainedFragment.getBundle();
             MealList mealList = (MealList) bundle.getSerializable(RecipesActivity.MEAL_DATA_KEY);
-            ArrayList<NewDishModel> meals = mealList.getListOfMeals();
+            final ArrayList<NewDishModel> meals = mealList.getListOfMeals();
             String[] arr = new String[meals.size()];
             for (int i = 0; i < meals.size(); i++) {
                 arr[i] = meals.get(i).getNameOfDish();
@@ -50,6 +52,20 @@ public class PortraitFragment extends Fragment {
             ArrayAdapter adapter = new ArrayAdapter<String>(v.getContext(), R.layout.activity_listview, arr);
             ListView myListView = (ListView) v.findViewById(R.id.recipe_list_view);
             myListView.setAdapter(adapter);
+
+            myListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    NewDishModel recipeToBeEdited = meals.get(i);
+                    Bundle dataToBeSent = new Bundle();
+                    Intent intent = new Intent(getActivity(), EditMealActivity.class);
+                    dataToBeSent.putInt("ITEM_INDEX", i);
+                    dataToBeSent.putBundle("LIST_OF_RECIPES", bundle);
+                    intent.putExtras(dataToBeSent);
+                    startActivity(intent);
+                    return true;
+                }
+            });
         }
         return v;
     }

@@ -10,14 +10,15 @@ import java.util.ArrayList;
 public class NewDishModel implements Serializable {
     private static final int MAX_ITEM = 10;
     private String nameOfDish;
-    private ArrayList<String> listOfItemName;
+    private String[] listOfItemName;
+
     private String[] listOfIUnit;
     private String direction;
     private String[] listOfQty;
     private static final long serialVersionUID = -70602105400464481L;
 
     public NewDishModel() {
-        listOfItemName = new ArrayList<>(MAX_ITEM);
+        listOfItemName = new String[MAX_ITEM];
         listOfIUnit = new String[MAX_ITEM];
         listOfQty = new String[MAX_ITEM];
     }
@@ -31,7 +32,7 @@ public class NewDishModel implements Serializable {
     }
 
     public void setNameOfIngredientByIndex(int index, String nameOfIngredient) {
-        listOfItemName.add(index, nameOfIngredient);
+        listOfItemName[index] = nameOfIngredient;
     }
 
     public void setQtyOfIngredientByIndex(int index, String qty) {
@@ -42,11 +43,11 @@ public class NewDishModel implements Serializable {
         listOfIUnit[index] = unit;
     }
 
-    public ArrayList<String> getListOfItemName() {
+    public String[] getListOfItemName() {
         return listOfItemName;
     }
 
-    public void setListOfItemName(ArrayList<String> listOfItemName) {
+    public void setListOfItemName(String[] listOfItemName) {
         this.listOfItemName = listOfItemName;
     }
 
