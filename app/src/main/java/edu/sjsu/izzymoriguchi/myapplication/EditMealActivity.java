@@ -3,6 +3,7 @@ package edu.sjsu.izzymoriguchi.myapplication;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +40,7 @@ public class EditMealActivity extends AppCompatActivity implements AdapterView.O
     private boolean hasDuplicate;
     private int index;
     private static final int PHOTO_PICKER_ID = 2;
+    private ImageView recipeIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +92,15 @@ public class EditMealActivity extends AppCompatActivity implements AdapterView.O
         recipeName.setText(newDishData.getNameOfDish());
         recipeName.addTextChangedListener(new EditMealActivity.GenericTextWatcher(recipeName));
 
+        recipeIcon = findViewById(R.id.recipe_icon);
+        String imageUriStr = newDishData.getImageUri();
+        Uri imageUri = Uri.parse(imageUriStr);
+        Log.d("imageUriStr: ", imageUriStr);
+        Log.d("imageUri: ", imageUri + "");
+        if (imageUri != null) {
+            recipeIcon.setImageURI(imageUri);
+        }
+
         EditText qty1 = (EditText) findViewById(R.id.item1_spinner_qty);
         EditText qty2 = (EditText) findViewById(R.id.item2_spinner_qty);
         EditText qty3 = (EditText) findViewById(R.id.item3_spinner_qty);
@@ -100,6 +111,29 @@ public class EditMealActivity extends AppCompatActivity implements AdapterView.O
         EditText qty8 = (EditText) findViewById(R.id.item8_spinner_qty);
         EditText qty9 = (EditText) findViewById(R.id.item9_spinner_qty);
         EditText qty10 = (EditText) findViewById(R.id.item10_spinner_qty);
+        String[] lstOfQty = newDishData.getListOfQty();
+
+        if (lstOfQty[0] != null) {
+            qty1.setText(lstOfQty[0]);
+        } else if (lstOfQty[1] != null){
+            qty2.setText(lstOfQty[1]);
+        } else if (lstOfQty[2] != null) {
+            qty3.setText(lstOfQty[2]);
+        } else if (lstOfQty[3] != null) {
+            qty4.setText(lstOfQty[3]);
+        } else if (lstOfQty[4] != null) {
+            qty5.setText(lstOfQty[4]);
+        } else if (lstOfQty[5] != null) {
+            qty6.setText(lstOfQty[5]);
+        } else if (lstOfQty[6] != null) {
+            qty7.setText(lstOfQty[6]);
+        } else if (lstOfQty[7] != null) {
+            qty8.setText(lstOfQty[7]);
+        } else if (lstOfQty[8] != null) {
+            qty9.setText(lstOfQty[8]);
+        } else if (lstOfQty[9] != null) {
+            qty10.setText(lstOfQty[9]);
+        }
 
         qty1.addTextChangedListener(new EditMealActivity.GenericTextWatcher(qty1));
         qty2.addTextChangedListener(new EditMealActivity.GenericTextWatcher(qty2));
@@ -123,18 +157,44 @@ public class EditMealActivity extends AppCompatActivity implements AdapterView.O
         EditText unit9 = (EditText) findViewById(R.id.item9_spinner_unit);
         EditText unit10 = (EditText) findViewById(R.id.item10_spinner_unit);
 
+        String[] lstOfUnits = newDishData.getListOfIUnit();
+        if (lstOfUnits[0] != null) {
+            unit1.setText(lstOfUnits[0]);
+        } else if (lstOfUnits[1] != null){
+            unit2.setText(lstOfUnits[1]);
+        } else if (lstOfUnits[2] != null) {
+            unit3.setText(lstOfUnits[2]);
+        } else if (lstOfUnits[3] != null) {
+            unit4.setText(lstOfUnits[3]);
+        } else if (lstOfUnits[4] != null) {
+            unit5.setText(lstOfUnits[4]);
+        } else if (lstOfUnits[5] != null) {
+            unit6.setText(lstOfUnits[5]);
+        } else if (lstOfUnits[6] != null) {
+            unit7.setText(lstOfUnits[6]);
+        } else if (lstOfUnits[7] != null) {
+            unit8.setText(lstOfUnits[7]);
+        } else if (lstOfUnits[8] != null) {
+            unit9.setText(lstOfUnits[8]);
+        } else if (lstOfUnits[9] != null) {
+            unit10.setText(lstOfUnits[9]);
+        }
         unit1.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit1));
-        unit1.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit2));
-        unit1.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit3));
-        unit1.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit4));
-        unit1.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit5));
-        unit1.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit6));
-        unit1.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit7));
-        unit1.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit8));
-        unit1.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit9));
-        unit1.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit10));
+        unit2.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit2));
+        unit3.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit3));
+        unit4.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit4));
+        unit5.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit5));
+        unit6.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit6));
+        unit7.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit7));
+        unit8.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit8));
+        unit9.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit9));
+        unit10.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit10));
 
         EditText directionOfRecipe = (EditText) findViewById(R.id.direction);
+        String recipeDirection = newDishData.getDirection();
+        if (recipeDirection != null) {
+            directionOfRecipe.setText(recipeDirection);
+        }
         directionOfRecipe.addTextChangedListener(new EditMealActivity.GenericTextWatcher(directionOfRecipe));
 
         // Creating adapter for spinner
@@ -266,8 +326,10 @@ public class EditMealActivity extends AppCompatActivity implements AdapterView.O
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PHOTO_PICKER_ID) {
-            ImageView recipeIcon = findViewById(R.id.recipe_icon);
+            recipeIcon = findViewById(R.id.recipe_icon);
             recipeIcon.setImageURI(data.getData());
+            String imgUriStr = data.getData().toString();
+            newDishData.setImageUri(imgUriStr);
         }
     }
 

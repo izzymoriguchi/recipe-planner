@@ -3,6 +3,7 @@ package edu.sjsu.izzymoriguchi.myapplication;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -117,15 +118,15 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
         EditText unit10 = (EditText) findViewById(R.id.item10_spinner_unit);
 
         unit1.addTextChangedListener(new GenericTextWatcher(unit1));
-        unit1.addTextChangedListener(new GenericTextWatcher(unit2));
-        unit1.addTextChangedListener(new GenericTextWatcher(unit3));
-        unit1.addTextChangedListener(new GenericTextWatcher(unit4));
-        unit1.addTextChangedListener(new GenericTextWatcher(unit5));
-        unit1.addTextChangedListener(new GenericTextWatcher(unit6));
-        unit1.addTextChangedListener(new GenericTextWatcher(unit7));
-        unit1.addTextChangedListener(new GenericTextWatcher(unit8));
-        unit1.addTextChangedListener(new GenericTextWatcher(unit9));
-        unit1.addTextChangedListener(new GenericTextWatcher(unit10));
+        unit2.addTextChangedListener(new GenericTextWatcher(unit2));
+        unit3.addTextChangedListener(new GenericTextWatcher(unit3));
+        unit4.addTextChangedListener(new GenericTextWatcher(unit4));
+        unit5.addTextChangedListener(new GenericTextWatcher(unit5));
+        unit6.addTextChangedListener(new GenericTextWatcher(unit6));
+        unit7.addTextChangedListener(new GenericTextWatcher(unit7));
+        unit8.addTextChangedListener(new GenericTextWatcher(unit8));
+        unit9.addTextChangedListener(new GenericTextWatcher(unit9));
+        unit10.addTextChangedListener(new GenericTextWatcher(unit10));
 
         EditText directionOfRecipe = (EditText) findViewById(R.id.direction);
         directionOfRecipe.addTextChangedListener(new GenericTextWatcher(directionOfRecipe));
@@ -223,9 +224,6 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
                 FileOutputStream fileOutputStream = openFileOutput(filename, Context.MODE_PRIVATE);
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
                 objectOutputStream.writeObject(lstOfMeals);
-                for (int i = 0; i < meals.size(); i++) {
-                    Log.d("ITEM", "Meal item: " + meals.get(i).getNameOfDish());
-                }
                 objectOutputStream.close();
                 fileOutputStream.close();
             } catch (IOException e) {
@@ -257,7 +255,8 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
     public void setRecipeIcon(View view) {
         Intent intent = new Intent();
         intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
         startActivityForResult(Intent.createChooser(intent, "Complete action using"), PHOTO_PICKER_ID);
     }
@@ -267,8 +266,14 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
         if (requestCode == PHOTO_PICKER_ID) {
             ImageView recipeIcon = findViewById(R.id.recipe_icon);
             recipeIcon.setImageURI(data.getData());
+            String imgUriStr = data.getData().toString();
+            Log.d("imgUriStr in NewDish: ", imgUriStr);
+            newDishData.setImageUri(imgUriStr);
         }
     }
+
+    //content://com.android.providers.media.documents/document/image%3A29991
+    //content: content://com.android.providers.media.documents/document/image%3A29991
 
     private class GenericTextWatcher implements TextWatcher {
 

@@ -1,5 +1,7 @@
 package edu.sjsu.izzymoriguchi.myapplication;
 
+import android.net.Uri;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -11,7 +13,7 @@ public class NewDishModel implements Serializable {
     private static final int MAX_ITEM = 10;
     private String nameOfDish;
     private String[] listOfItemName;
-
+    private String imageUri;
     private String[] listOfIUnit;
     private String direction;
     private String[] listOfQty;
@@ -21,6 +23,14 @@ public class NewDishModel implements Serializable {
         listOfItemName = new String[MAX_ITEM];
         listOfIUnit = new String[MAX_ITEM];
         listOfQty = new String[MAX_ITEM];
+    }
+
+    public String getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
     }
 
     public String getNameOfDish() {
