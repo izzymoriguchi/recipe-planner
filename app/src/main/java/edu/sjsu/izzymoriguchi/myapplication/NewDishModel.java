@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 public class NewDishModel implements Serializable {
     private static final int MAX_ITEM = 10;
+    private int selectionCounter;
     private String nameOfDish;
     private String[] listOfItemName;
     private String imageUri;
@@ -23,6 +24,15 @@ public class NewDishModel implements Serializable {
         listOfItemName = new String[MAX_ITEM];
         listOfIUnit = new String[MAX_ITEM];
         listOfQty = new String[MAX_ITEM];
+        selectionCounter = 0;
+    }
+
+    public int getSelectionCounter() {
+        return selectionCounter;
+    }
+
+    public void setSelectionCounter(int selectionCounter) {
+        this.selectionCounter = selectionCounter;
     }
 
     public String getImageUri() {

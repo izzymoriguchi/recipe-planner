@@ -14,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,10 +25,17 @@ import java.util.ArrayList;
  */
 public class LandscapeFragment extends Fragment {
     private Bundle bundle;
-    private RetainedFragment retainedFragment;
+//    private ;
 
     public LandscapeFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onDestroyView() {
+
+        super.onDestroyView();
+        Toast.makeText(this.getActivity(), "Destroy Landscape", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -38,7 +44,7 @@ public class LandscapeFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_landscape, container, false);
 
         FragmentManager fragmentManager = getFragmentManager();
-        retainedFragment = (RetainedFragment) fragmentManager.findFragmentByTag(RecipesActivity.TAG_RETAINED_FRAGMENT);
+        RetainedFragment retainedFragment = (RetainedFragment) fragmentManager.findFragmentByTag(RecipesActivity.TAG_RETAINED_FRAGMENT);
         if (retainedFragment == null) {
             Log.d("RetainedFragment " , "is Null in landscape view");
         } else {
@@ -51,7 +57,7 @@ public class LandscapeFragment extends Fragment {
                 recipeNamesArray[i] = meals.get(i).getNameOfDish();
             }
             ArrayAdapter arrayAdapter = new ArrayAdapter<String>(v.getContext(),
-                    R.layout.activity_listview, recipeNamesArray);
+                    R.layout.activity_listview_landscape, recipeNamesArray);
             ListView myListView = (ListView) v.findViewById(R.id.recipe_list_view_landscape);
             myListView.setAdapter(arrayAdapter);
 
@@ -108,6 +114,7 @@ public class LandscapeFragment extends Fragment {
             });
 
         }
+        Toast.makeText(v.getContext(), "Landscape OncreateView", Toast.LENGTH_SHORT).show();
         return v;
     }
 
