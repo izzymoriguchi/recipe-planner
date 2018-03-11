@@ -24,12 +24,10 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class PortraitFragment extends Fragment {
-    // a bundle object we want to retain
+
     private Bundle bundle;
-//    private ;
 
     public PortraitFragment() {
-        // Required empty public constructor
 
     }
 
@@ -65,13 +63,8 @@ public class PortraitFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     // TODO: add the selected items in the listview of Groceries and meals
-
                     meals.get(i).setSelectionCounter(meals.get(i).getSelectionCounter() + 1);
                     mealList.setListOfMeals(meals);
-
-//                    ArrayList<NewDishModel> meals;
-//                    MealList lstOfMeals;
-
                     try {
                         FileOutputStream fileOutputStream = view.getContext().openFileOutput(NewDishActivity.filename, Context.MODE_PRIVATE);
                         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
@@ -82,7 +75,6 @@ public class PortraitFragment extends Fragment {
                         e.printStackTrace();
                     }
 //                    Toast.makeText(view.getContext(), "Changed the count", Toast.LENGTH_SHORT).show();
-
                 }
             });
 
@@ -102,7 +94,5 @@ public class PortraitFragment extends Fragment {
         }
         Toast.makeText(v.getContext(), "Portrait OncreateView", Toast.LENGTH_SHORT).show();
         return v;
-
     }
-
 }

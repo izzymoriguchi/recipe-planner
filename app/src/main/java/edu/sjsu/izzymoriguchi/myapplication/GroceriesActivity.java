@@ -34,7 +34,7 @@ public class GroceriesActivity extends AppCompatActivity {
             ArrayList<NewDishModel> meals = lstOfMeals.getListOfMeals();
 //            String[] arr = new String[meals.size()];
             HashMap<String, Integer> map = new HashMap<>();
-            ArrayList<String> arr = new ArrayList<>();
+            ArrayList<String> arrOfGroceriesList = new ArrayList<>();
             for (int i = 0; i < meals.size(); i++) {
                 NewDishModel currModel = meals.get(i);
                 if (currModel.getSelectionCounter() > 0) {
@@ -43,17 +43,23 @@ public class GroceriesActivity extends AppCompatActivity {
                     Log.d("currModelListOfItem: ", "" + currModel.getListOfItemName().length);
                     for (int j = 0; j < currModel.getListOfItemName().length; j++) {
                         String nameOfItem = currModel.getListOfItemName()[j];
-                        if (map.containsKey(nameOfItem)) {
-                            map.put(nameOfItem, map.get(nameOfItem) + 1);
+                        if (nameOfItem != null) {
+                            if (map.containsKey(nameOfItem)) {
+                                map.put(nameOfItem, map.get(nameOfItem) + 1);
+                            }
+                            map.put(nameOfItem, 1);
                         }
-                        map.put(nameOfItem, 1);
                     }
                 }
-//                arr[i] = meals.get(i).getNameOfDish();
             }
-            arr.addAll(map.keySet());
+            arrOfGroceriesList.addAll(map.keySet());
+            for (int i = 0; i < arrOfGroceriesList.size(); i++) {
+                for (int j = 0; j < meals.size(); j++) {
+//                    if (arrOfGroceriesList.get(i).equals(meals.get(i).getNameOfDish()))
+                }
+            }
 
-            ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_listview_portrait, arr);
+            ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_listview_portrait, arrOfGroceriesList);
             ListView myListView = (ListView) findViewById(R.id.grocery_container_list_view);
             myListView.setAdapter(adapter);
 

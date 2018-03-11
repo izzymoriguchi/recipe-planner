@@ -95,7 +95,6 @@ public class LandscapeFragment extends Fragment {
                     recipeDirection.setId(View.generateViewId());
                     recipeDirection.setText(selectedRecipe.getDirection());
                     layoutForRecipeDirection.addView(recipeDirection, paramsForRecipeDirection);
-
                 }
             });
 
