@@ -1,12 +1,15 @@
 package edu.sjsu.izzymoriguchi.myapplication;
 
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
@@ -18,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class GroceriesActivity extends AppCompatActivity {
     private final String TAG = "GroceriesActivity";
@@ -26,10 +30,8 @@ public class GroceriesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_groceries);
-        SwipeMenuListView listView = (SwipeMenuListView) findViewById(R.id.grocery_container_list_view);
-
-
-
+        final SwipeMenuListView listView = (SwipeMenuListView) findViewById(R.id.grocery_container_list_view);
+//        listView.add/
         FileInputStream ifile = null;
         ObjectInputStream in = null;
         MealList lstOfMeals = null;
@@ -39,11 +41,11 @@ public class GroceriesActivity extends AppCompatActivity {
             lstOfMeals = (MealList) in.readObject();
             in.close();
 
-//            final MealList mealList = (MealList) bundle.getSerializable(RecipesActivity.MEAL_DATA_KEY);
             ArrayList<NewDishModel> meals = lstOfMeals.getListOfMeals();
-//            String[] arr = new String[meals.size()];
             HashMap<String, Integer> map = new HashMap<>();
-            ArrayList<String> arrOfGroceriesList = new ArrayList<>();
+            HashSet<String> set = new HashSet<>();
+            final ArrayList<String> arrOfGroceriesList = new ArrayList<>();
+            final ArrayList<GroceriesModel> groceriesData = new ArrayList<>();
             for (int i = 0; i < meals.size(); i++) {
                 NewDishModel currModel = meals.get(i);
                 if (currModel.getSelectionCounter() > 0) {
@@ -53,55 +55,40 @@ public class GroceriesActivity extends AppCompatActivity {
                     for (int j = 0; j < currModel.getListOfItemName().length; j++) {
                         String nameOfItem = currModel.getListOfItemName()[j];
                         if (nameOfItem != null) {
-                            if (map.containsKey(nameOfItem)) {
-                                map.put(nameOfItem, map.get(nameOfItem) + 1);
+
+                            if (!set.contains(nameOfItem)) {
+                                int qty = Integer.parseInt(currModel.getListOfQty()[j]);
+                                String unit = currModel.getListOfIUnit()[j];
+                                set.add(nameOfItem);
+                                GroceriesModel data = new GroceriesModel(nameOfItem, qty, unit);
+                                groceriesData.add(data);
+                                arrOfGroceriesList.add(data.toString());
                             }
-                            map.put(nameOfItem, 1);
                         }
                     }
                 }
             }
-            arrOfGroceriesList.addAll(map.keySet());
-            for (int i = 0; i < arrOfGroceriesList.size(); i++) {
-                for (int j = 0; j < meals.size(); j++) {
-//                    if (arrOfGroceriesList.get(i).equals(meals.get(i).getNameOfDish()))
-                }
-            }
 
-            ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrOfGroceriesList);
+
+            final ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrOfGroceriesList);
             listView.setAdapter(adapter);
 
             SwipeMenuCreator creator = new SwipeMenuCreator() {
-
                 @Override
                 public void create(SwipeMenu menu) {
                     // create "open" item
-                    SwipeMenuItem openItem = new SwipeMenuItem(getApplicationContext());
-                    // set item background
-                    openItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9,
-                            0xCE)));
-                    // set item width
-                    openItem.setWidth(170);
-                    // set item title
-                    openItem.setTitle("Open");
-                    // set item title fontsize
-                    openItem.setTitleSize(18);
-                    // set item title font color
-                    openItem.setTitleColor(Color.WHITE);
-                    // add to menu
-                    menu.addMenuItem(openItem);
+                    SwipeMenuItem plusItem = new SwipeMenuItem(getApplicationContext());
+                    plusItem.setBackground(new ColorDrawable(Color.rgb(0xFF, 0xFF, 0xFF)));
+                    plusItem.setWidth(170);
+                    plusItem.setIcon(R.drawable.ic_plus);
+                    menu.addMenuItem(plusItem);
 
                     // create "delete" item
-                    SwipeMenuItem deleteItem = new SwipeMenuItem(getApplicationContext());
-                    // set item background
-                    deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
-                            0x3F, 0x25)));
-                    // set item width
-                    deleteItem.setWidth(170);
-                    // set a icon
-                    deleteItem.setIcon(R.drawable.ic_plus);
-                    // add to menu
-                    menu.addMenuItem(deleteItem);
+                    SwipeMenuItem minusItem = new SwipeMenuItem(getApplicationContext());
+                    minusItem.setBackground(new ColorDrawable(Color.rgb(0xFF, 0xFF, 0xFF)));
+                    minusItem.setWidth(170);
+                    minusItem.setIcon(R.drawable.ic_minus);
+                    menu.addMenuItem(minusItem);
                 }
             };
             listView.setMenuCreator(creator);
@@ -109,16 +96,25 @@ public class GroceriesActivity extends AppCompatActivity {
             listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                    Log.d(TAG, "position index: " + position);
+                    GroceriesModel model = groceriesData.get(position);
+                    int i = arrOfGroceriesList.indexOf(model.toString());
+                    TextView item = (TextView)listView.getItemAtPosition(position);
+
+                    item.setPaintFlags(item.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     switch (index) {
                         case 0:
-                            // open
-                            Log.d(TAG, "onMenuItemClick, and index: " + index);
+                            // increment
+                            model.incrementQty();
+                            arrOfGroceriesList.set(i, model.toString());
                             break;
                         case 1:
-                            // delete
-                            Log.d(TAG, "onMenuItemClick, and index: " + index);
+                            // decrement
+                            model.decrementQty();
+                            arrOfGroceriesList.set(i, model.toString());
                             break;
                     }
+                    adapter.notifyDataSetChanged();
                     // false : close the menu; true : not close the menu
                     return false;
                 }
@@ -127,7 +123,5 @@ public class GroceriesActivity extends AppCompatActivity {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
-
     }
 }
