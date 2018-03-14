@@ -37,4 +37,12 @@ public class GroceriesModel {
     public void decrementQty() {
         this.qty--;
     }
+
+    public void setQty(int qty) {
+        this.qty = qty;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

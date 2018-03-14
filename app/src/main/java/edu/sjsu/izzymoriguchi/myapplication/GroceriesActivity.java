@@ -44,28 +44,29 @@ public class GroceriesActivity extends AppCompatActivity {
             in.close();
 
             ArrayList<NewDishModel> meals = lstOfMeals.getListOfMeals();
-            HashMap<String, Integer> map = new HashMap<>();
-            HashSet<String> set = new HashSet<>();
+            HashMap<String, GroceriesModel> map = new HashMap<>();
 
             arrOfGroceriesList = new ArrayList<>();
             groceriesData = new ArrayList<>();
+            GroceriesModel data = null;
             for (int i = 0; i < meals.size(); i++) {
                 NewDishModel currModel = meals.get(i);
                 if (currModel.getSelectionCounter() > 0) {
-                    Log.d("currModelCounter: ", "" + currModel.getSelectionCounter());
-                    Log.d("currModelNameDish: ", "" + currModel.getNameOfDish());
-                    Log.d("currModelListOfItem: ", "" + currModel.getListOfItemName().length);
                     for (int j = 0; j < currModel.getListOfItemName().length; j++) {
                         String nameOfItem = currModel.getListOfItemName()[j];
                         if (nameOfItem != null) {
-
-                            if (!set.contains(nameOfItem)) {
-                                int qty = Integer.parseInt(currModel.getListOfQty()[j]);
+                            int qty = Integer.parseInt(currModel.getListOfQty()[j]);
+                            if (!map.containsKey(nameOfItem)) {
                                 String unit = currModel.getListOfIUnit()[j];
-                                set.add(nameOfItem);
-                                GroceriesModel data = new GroceriesModel(nameOfItem, qty, unit);
+                                data = new GroceriesModel(nameOfItem, qty, unit);
                                 groceriesData.add(data);
                                 arrOfGroceriesList.add(data.toString());
+                                map.put(nameOfItem, data);
+                            } else {
+                                GroceriesModel existedData = map.get(nameOfItem);
+                                String oldStr = existedData.toString();
+                                existedData.setQty(existedData.getQty() + qty);
+                                arrOfGroceriesList.set(arrOfGroceriesList.indexOf(oldStr), existedData.toString());
                             }
                         }
                     }
