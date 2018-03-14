@@ -1,5 +1,6 @@
 package edu.sjsu.izzymoriguchi.myapplication;
 
+import android.annotation.SuppressLint;
 import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ public class GroceriesActivity extends AppCompatActivity {
     private ArrayList<String> arrOfGroceriesList;
     private MyCustomAdapter adapter;
     private ListView listView;
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,19 +78,19 @@ public class GroceriesActivity extends AppCompatActivity {
 
             listView.setOnTouchListener(new OnSwipeTouchListener(GroceriesActivity.this) {
                 @Override
-                public void onSwipeTop() {
-                    Toast.makeText(GroceriesActivity.this, "top", Toast.LENGTH_SHORT).show();
-                }
-                @Override
-                public void onSwipeRight() {
-                    Toast.makeText(GroceriesActivity.this, "right", Toast.LENGTH_SHORT).show();
-                }
-                @Override
-                public void onSwipeLeft(MotionEvent e1) {
-                    // Whatever
+                public void onSwipeRight(MotionEvent e1) {
                     final int pos = listView.pointToPosition((int)e1.getX(), (int)e1.getY());
                     View child = listView.getChildAt(pos);
-                    if (child != null){
+                    if (child != null) {
+                        removeElem(pos);
+                    }
+                }
+
+                @Override
+                public void onSwipeLeft(MotionEvent e1) {
+                    final int pos = listView.pointToPosition((int)e1.getX(), (int)e1.getY());
+                    View child = listView.getChildAt(pos);
+                    if (child != null) {
                         final ImageButton plus = (ImageButton) child.findViewById(R.id.add_btn);
                         final ImageButton minus = (ImageButton) child.findViewById(R.id.delete_btn);
                         if (plus != null) {
@@ -125,19 +127,20 @@ public class GroceriesActivity extends AppCompatActivity {
                         });
 
                     }
-                    Toast.makeText(GroceriesActivity.this, "left", Toast.LENGTH_SHORT).show();
                 }
-                @Override
-                public void onSwipeBottom() {
-                    Toast.makeText(GroceriesActivity.this, "bottom", Toast.LENGTH_SHORT).show();
-                }
-
             });
 
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    public void removeElem(int pos) {
+        GroceriesModel model = groceriesData.get(pos);
+        int i = arrOfGroceriesList.indexOf(model.toString());
+        arrOfGroceriesList.remove(i);
+        adapter.notifyDataSetChanged();
     }
 
     public void incrementCount(int pos) {
