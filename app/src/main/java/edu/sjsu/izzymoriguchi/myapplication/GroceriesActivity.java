@@ -1,12 +1,15 @@
 package edu.sjsu.izzymoriguchi.myapplication;
 
+import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -21,6 +24,7 @@ public class GroceriesActivity extends AppCompatActivity {
     private ArrayList<GroceriesModel> groceriesData;
     private ArrayList<String> arrOfGroceriesList;
     private MyCustomAdapter adapter;
+    private ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +71,7 @@ public class GroceriesActivity extends AppCompatActivity {
             }
 
             adapter = new MyCustomAdapter(arrOfGroceriesList, this);
-            final ListView listView = findViewById(R.id.grocery_container_list_view);
+            listView = findViewById(R.id.grocery_container_list_view);
             listView.setAdapter(adapter);
 
             listView.setOnTouchListener(new OnSwipeTouchListener(GroceriesActivity.this) {
@@ -138,7 +142,7 @@ public class GroceriesActivity extends AppCompatActivity {
 
     public void incrementCount(int pos) {
         GroceriesModel model = groceriesData.get(pos);
-        final int i = arrOfGroceriesList.indexOf(model.toString());
+        int i = arrOfGroceriesList.indexOf(model.toString());
         model.incrementQty();
         arrOfGroceriesList.set(i, model.toString());
         adapter.notifyDataSetChanged();
@@ -146,12 +150,18 @@ public class GroceriesActivity extends AppCompatActivity {
 
     public void decrementCount(int pos) {
         GroceriesModel model = groceriesData.get(pos);
-        final int i = arrOfGroceriesList.indexOf(model.toString());
-        model.decrementQty();
-        arrOfGroceriesList.set(i, model.toString());
-        adapter.notifyDataSetChanged();
+        if (model.getQty() > 0) {
+            int i = arrOfGroceriesList.indexOf(model.toString());
+            model.decrementQty();
+            if (model.getQty() == 0) {
+                View child = listView.getChildAt(pos);
+                TextView item = (TextView) child.findViewById(R.id.list_item_string);
+                item.setPaintFlags(item.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            }
+            arrOfGroceriesList.set(i, model.toString());
+            adapter.notifyDataSetChanged();
+        }
+
+
     }
-
-
-
 }
