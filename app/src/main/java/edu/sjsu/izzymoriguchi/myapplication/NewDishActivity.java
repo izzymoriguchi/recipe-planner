@@ -34,7 +34,7 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
     public static String filename = "recipes.ser";
     private ArrayList<String> items;
     private ArrayAdapter<String> dataAdapter;
-    private Spinner[] spinners = new Spinner[10];
+    private Spinner[] spinners;
     static final String SPINNER_ITEMS_STATE = "spinnerItemState";
     private NewDishModel newDishData;
     private boolean hasDuplicate;
@@ -44,7 +44,7 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_dish);
-
+        spinners = new Spinner[10];
         spinners[0] = (Spinner) findViewById(R.id.item1_spinner);
         spinners[1] = (Spinner) findViewById(R.id.item2_spinner);
         spinners[2] = (Spinner) findViewById(R.id.item3_spinner);
