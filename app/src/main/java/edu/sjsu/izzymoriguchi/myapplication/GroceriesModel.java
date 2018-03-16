@@ -6,10 +6,10 @@ package edu.sjsu.izzymoriguchi.myapplication;
 
 public class GroceriesModel {
     private String name;
-    private int qty;
+    private double qty;
     private String unit;
 
-    public GroceriesModel(String name, int qty, String unit) {
+    public GroceriesModel(String name, double qty, String unit) {
         this.name = name;
         this.qty = qty;
         this.unit = unit;
@@ -26,7 +26,7 @@ public class GroceriesModel {
         return stringBuilder.toString();
     }
 
-    public int getQty() {
+    public double getQty() {
         return qty;
     }
 
@@ -38,7 +38,7 @@ public class GroceriesModel {
         this.qty--;
     }
 
-    public void setQty(int qty) {
+    public void setQty(double qty) {
         this.qty = qty;
     }
 

@@ -60,11 +60,16 @@ public class LandscapeFragment extends Fragment {
             String[] recipeNamesArray = new String[meals.size()];
             for (int i = 0; i < meals.size(); i++) {
                 recipeNamesArray[i] = meals.get(i).getNameOfDish();
+                Log.d("Izzy: ", meals.get(i).getNameOfDish() + ": qty of " + meals.get(i).getListOfItemName()[0] + " : " + meals.get(i).getListOfQty()[0]);
+                Log.d("Izzy: ", meals.get(i).getNameOfDish() + ": qty of " + meals.get(i).getListOfItemName()[1] + " : " + meals.get(i).getListOfQty()[1]);
+                Log.d("Izzy: ", meals.get(i).getNameOfDish() + ": qty of " + meals.get(i).getListOfItemName()[2] + " : " + meals.get(i).getListOfQty()[2]);
             }
             ArrayAdapter arrayAdapter = new ArrayAdapter<String>(v.getContext(),
                     R.layout.activity_listview_landscape, recipeNamesArray);
             ListView myListView = (ListView) v.findViewById(R.id.recipe_list_view_landscape);
             myListView.setAdapter(arrayAdapter);
+
+
 
             myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -82,7 +87,10 @@ public class LandscapeFragment extends Fragment {
 
                     int j = 0;
                     while (selectedRecipe.getListOfItemName()[j] != null) {
-                        ingredientsOfRecipe.append("\n\u25CF " + selectedRecipe.getListOfItemName()[j]);
+                        ingredientsOfRecipe.append("\n\u25CF "
+                                + selectedRecipe.getListOfItemName()[j]
+                                + " (" + selectedRecipe.getListOfQty()[j]
+                                + " " + selectedRecipe.getListOfIUnit()[j] + ")");
                         j++;
                     }
 

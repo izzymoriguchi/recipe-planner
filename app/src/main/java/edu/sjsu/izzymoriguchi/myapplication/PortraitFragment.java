@@ -62,7 +62,6 @@ public class PortraitFragment extends Fragment {
             myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    // TODO: add the selected items in the listview of Groceries and meals
                     meals.get(i).setSelectionCounter(meals.get(i).getSelectionCounter() + 1);
                     mealList.setListOfMeals(meals);
                     try {

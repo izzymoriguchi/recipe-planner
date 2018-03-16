@@ -55,7 +55,7 @@ public class GroceriesActivity extends AppCompatActivity {
                     for (int j = 0; j < currModel.getListOfItemName().length; j++) {
                         String nameOfItem = currModel.getListOfItemName()[j];
                         if (nameOfItem != null) {
-                            int qty = Integer.parseInt(currModel.getListOfQty()[j]);
+                            double qty = Double.parseDouble(currModel.getListOfQty()[j]);
                             if (!map.containsKey(nameOfItem)) {
                                 String unit = currModel.getListOfIUnit()[j];
                                 data = new GroceriesModel(nameOfItem, qty, unit);
