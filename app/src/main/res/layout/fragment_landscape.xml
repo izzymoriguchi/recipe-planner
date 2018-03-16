@@ -61,15 +61,14 @@
             android:layout_height="0.5dp"
             android:layout_below="@+id/image_ingredients_container"
             android:layout_margin="10dp"
-            android:background="#000000" />
+            android:background="#000000"/>
 
         <TextView
             android:id="@+id/recipe_direction"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/horizontal_divisor"
-            android:layout_margin="10dp"
-            android:text="Directions:"/>
+            android:layout_margin="10dp"/>
     </RelativeLayout>
 
 </LinearLayout>

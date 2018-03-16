@@ -80,6 +80,10 @@ public class LandscapeFragment extends Fragment {
                         j++;
                     }
 
+                    TextView directionOfRecipe = (TextView) v.findViewById(R.id.recipe_direction);
+                    directionOfRecipe.setText("Directions:");
+                    directionOfRecipe.append("\n" + selectedRecipe.getDirection());
+
                     recipeDetails.setVisibility(View.VISIBLE);
                 }
             });
