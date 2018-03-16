@@ -70,6 +70,16 @@ public class LandscapeFragment extends Fragment {
                     NewDishModel selectedRecipe = meals.get(i);
                     TextView titleOfRecipe = (TextView) v.findViewById(R.id.dish_name);
                     titleOfRecipe.setText(selectedRecipe.getNameOfDish());
+
+                    TextView ingredientsOfRecipe = (TextView) v.findViewById(R.id.ingredients);
+                    ingredientsOfRecipe.setText("Ingredients:");
+
+                    int j = 0;
+                    while (selectedRecipe.getListOfItemName()[j] != null) {
+                        ingredientsOfRecipe.append("\n\u25CF " + selectedRecipe.getListOfItemName()[j]);
+                        j++;
+                    }
+
                     recipeDetails.setVisibility(View.VISIBLE);
                 }
             });
