@@ -23,7 +23,9 @@ import java.util.HashMap;
 public class MealsActivity extends AppCompatActivity {
     private ArrayList<String> items;
     private Spinner[] spinners;
-    HashMap<Integer, NewDishModel> map;
+    private HashMap<Integer, NewDishModel> map;
+    private ArrayAdapter<String> dataAdapter;
+    private ArrayList<NewDishModel> meals;
     private static final int NUM_WEEKLY_MEALS = 21;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,21 +70,16 @@ public class MealsActivity extends AppCompatActivity {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show();
-        map = new HashMap<>();
-        ArrayList<NewDishModel> meals = lstOfMeals.getListOfMeals();
+        meals = lstOfMeals.getListOfMeals();
         for (int i = 0; i < meals.size(); i++) {
             NewDishModel meal = meals.get(i);
-//            Log.d("MEALCOUNT:", "count of " + meal.getNameOfDish() + meal.getSelectionCounter());
             if (meal.getSelectionCounter() > 0) {
                 String listLabel = meal.getNameOfDish();
                 items.add(listLabel);
-                map.put(i + 1, meal);
             }
         }
 
-        ArrayAdapter<String> dataAdapter
-                = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items);
+        dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items);
 
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -95,14 +92,17 @@ public class MealsActivity extends AppCompatActivity {
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     String item = (String) adapterView.getItemAtPosition(i);
                     if (i > 0) {
-                        NewDishModel model = map.get(i);
+                        NewDishModel model = searchDishModel(item);
                         if (model != null) {
                             if (model.getSelectionCounter() > 0) {
                                 model.setSelectionCounter(model.getSelectionCounter() - 1);
                                 if (model.getSelectionCounter() == 0) {
                                     items.remove(item);
-                                    map.remove(i);
                                 }
+                                Toast.makeText(getApplicationContext(),
+                                        "The number of " + model.getNameOfDish()
+                                                + " available: " + model.getSelectionCounter(),
+                                        Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -115,6 +115,17 @@ public class MealsActivity extends AppCompatActivity {
             });
         }
 
+    }
+
+    public NewDishModel searchDishModel (String name) {
+        NewDishModel outputModel = null;
+        for (NewDishModel model : meals) {
+            if (model.getNameOfDish().equals(name)) {
+                outputModel = model;
+                break;
+            }
+        }
+        return outputModel;
     }
 
 }
