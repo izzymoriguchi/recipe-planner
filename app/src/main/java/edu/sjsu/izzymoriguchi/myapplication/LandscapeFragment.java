@@ -25,7 +25,8 @@ import java.util.ArrayList;
  */
 public class LandscapeFragment extends Fragment {
     private Bundle bundle;
-//    private ;
+    private View v;
+    private RelativeLayout recipeDetails;
 
     public LandscapeFragment() {
         // Required empty public constructor
@@ -41,8 +42,10 @@ public class LandscapeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("LandscapeFragment " , "onCreateView is called");
-        View v = inflater.inflate(R.layout.fragment_landscape, container, false);
+        v = inflater.inflate(R.layout.fragment_landscape, container, false);
 
+        recipeDetails = (RelativeLayout) v.findViewById(R.id.recipe_information);
+        recipeDetails.setVisibility(View.INVISIBLE);
         FragmentManager fragmentManager = getFragmentManager();
         RetainedFragment retainedFragment = (RetainedFragment) fragmentManager.findFragmentByTag(RecipesActivity.TAG_RETAINED_FRAGMENT);
         if (retainedFragment == null) {
@@ -50,7 +53,7 @@ public class LandscapeFragment extends Fragment {
         } else {
             Log.d("RetainedFragment " , "is retained in portrait view");
             bundle = retainedFragment.getBundle();
-            MealList mealList = (MealList) bundle.getSerializable(RecipesActivity.MEAL_DATA_KEY);
+            final MealList mealList = (MealList) bundle.getSerializable(RecipesActivity.MEAL_DATA_KEY);
             final ArrayList<NewDishModel> meals = mealList.getListOfMeals();
             String[] recipeNamesArray = new String[meals.size()];
             for (int i = 0; i < meals.size(); i++) {
@@ -61,40 +64,13 @@ public class LandscapeFragment extends Fragment {
             ListView myListView = (ListView) v.findViewById(R.id.recipe_list_view_landscape);
             myListView.setAdapter(arrayAdapter);
 
-            final LinearLayout layoutForIngredients = (LinearLayout) v.findViewById(R.id.ingredients_names);
-//            final RelativeLayout relativeLayout = (RelativeLayout) v.findViewById(R.id.recipe_information);
-            final RelativeLayout layoutForRecipeTitle = (RelativeLayout) v.findViewById(R.id.dish_name);
-            final RelativeLayout layoutForRecipeDirection = (RelativeLayout) v.findViewById(R.id.dish_direction);
             myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    layoutForIngredients.removeAllViews();
-                    layoutForRecipeDirection.removeAllViews();
                     NewDishModel selectedRecipe = meals.get(i);
-
-                    // programmatically add fields
-                    RelativeLayout.LayoutParams paramsForRecipeTitle = (RelativeLayout.LayoutParams) layoutForRecipeTitle.getLayoutParams();
-                    TextView recipeTitle = new TextView(view.getContext());
-                    recipeTitle.setId(View.generateViewId());
-                    recipeTitle.setText("Name of recipe");
-                    layoutForRecipeTitle.addView(recipeTitle, paramsForRecipeTitle);
-//                    relativeLayout.addView(tv1, layoutparams);
-
-
-                    RelativeLayout.LayoutParams paramsForIngredients = (RelativeLayout.LayoutParams) layoutForIngredients.getLayoutParams();
-                    String[] recipeIngredients = selectedRecipe.getListOfItemName();
-                    for (int j = 0; j < recipeIngredients.length; j++) {
-                        TextView textView = new TextView(view.getContext());
-                        textView.setText(recipeIngredients[j]);
-                        layoutForIngredients.addView(textView, paramsForIngredients);
-                    }
-
-
-                    RelativeLayout.LayoutParams paramsForRecipeDirection = (RelativeLayout.LayoutParams) layoutForRecipeDirection.getLayoutParams();
-                    TextView recipeDirection = new TextView(view.getContext());
-                    recipeDirection.setId(View.generateViewId());
-                    recipeDirection.setText(selectedRecipe.getDirection());
-                    layoutForRecipeDirection.addView(recipeDirection, paramsForRecipeDirection);
+                    TextView titleOfRecipe = (TextView) v.findViewById(R.id.dish_name);
+                    titleOfRecipe.setText(selectedRecipe.getNameOfDish());
+                    recipeDetails.setVisibility(View.VISIBLE);
                 }
             });
 
