@@ -69,7 +69,6 @@ public class MealsActivity extends AppCompatActivity {
             ex.printStackTrace();
         }
         Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show();
-        Log.d("HELO0000:", "Just saying hello000");
         map = new HashMap<>();
         ArrayList<NewDishModel> meals = lstOfMeals.getListOfMeals();
         for (int i = 0; i < meals.size(); i++) {
@@ -82,7 +81,6 @@ public class MealsActivity extends AppCompatActivity {
             }
         }
 
-        Log.d("HELO:", "Just saying hello");
         ArrayAdapter<String> dataAdapter
                 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items);
 
@@ -92,14 +90,10 @@ public class MealsActivity extends AppCompatActivity {
         // Attach data adapter with spinner
         for (int i = 0; i < spinners.length; i++) {
             spinners[i].setAdapter(dataAdapter);
-            Log.d("HELO2:", "Just saying hello2");
             spinners[i].setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     String item = (String) adapterView.getItemAtPosition(i);
-                    Log.d("SPINNER: ", "Item: " + item);
-                    Log.d("IZZY: ", "Does items contain item? : " + items.contains(item));
-                    Log.d("Index: ", "" + i);
                     if (i > 0) {
                         NewDishModel model = map.get(i);
                         if (model != null) {
