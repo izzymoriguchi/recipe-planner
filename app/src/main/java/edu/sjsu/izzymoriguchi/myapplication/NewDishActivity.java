@@ -83,6 +83,11 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
 
         EditText recipeName = (EditText) findViewById(R.id.recipe_name);
         recipeName.addTextChangedListener(new GenericTextWatcher(recipeName));
+        ImageView recipeIcon = (ImageView) findViewById(R.id.recipe_icon);
+        Uri imgUri = Uri.parse("android.resource://edu.sjsu.izzymoriguchi.myapplication/" + R.drawable.default_new_dish_icon);
+        recipeIcon.setImageURI(null);
+        recipeIcon.setImageURI(imgUri);
+        newDishData.setImageUri(imgUri.toString());
 
         EditText qty1 = (EditText) findViewById(R.id.item1_spinner_qty);
         EditText qty2 = (EditText) findViewById(R.id.item2_spinner_qty);

@@ -3,6 +3,7 @@ package edu.sjsu.izzymoriguchi.myapplication;
 
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -70,6 +72,10 @@ public class LandscapeFragment extends Fragment {
                     NewDishModel selectedRecipe = meals.get(i);
                     TextView titleOfRecipe = (TextView) v.findViewById(R.id.dish_name);
                     titleOfRecipe.setText(selectedRecipe.getNameOfDish());
+
+                    ImageView photoOfRecipe = (ImageView) v.findViewById(R.id.dish_image);
+                    Uri uri = Uri.parse(selectedRecipe.getImageUri());
+                    photoOfRecipe.setImageURI(uri);
 
                     TextView ingredientsOfRecipe = (TextView) v.findViewById(R.id.ingredients);
                     ingredientsOfRecipe.setText("Ingredients:");
