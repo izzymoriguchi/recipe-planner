@@ -1,6 +1,8 @@
 package edu.sjsu.izzymoriguchi.myapplication;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -9,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +31,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class NewDishActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -258,12 +264,64 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
     }
 
     public void setRecipeIcon(View view) {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-        startActivityForResult(Intent.createChooser(intent, "Complete action using"), PHOTO_PICKER_ID);
+        AlertDialog.Builder builder = new AlertDialog.Builder(NewDishActivity.this);
+        builder.setMessage("Provide URL link for an image or choose from file");
+        builder.setCancelable(true);
+
+        // Set up the input
+        final EditText input = new EditText(this);
+
+       // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        builder.setPositiveButton(
+                "Choose from file",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent intent = new Intent();
+                        intent.setType("image/*");
+                        intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+                        intent.addCategory(Intent.CATEGORY_OPENABLE);
+                        intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                        startActivityForResult(Intent.createChooser(intent, "Complete action using"), PHOTO_PICKER_ID);
+                        dialog.cancel();
+                    }
+                });
+
+        builder.setNegativeButton(
+                "Load from given URL",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+
+                        Log.d("IZZY", input.getText().toString());
+                        String imageURL = input.getText().toString();
+
+                        URL url;
+                        Uri uri = null;
+                        try {
+                            url = new URL(imageURL);
+                            Uri.Builder builder =  new Uri.Builder()
+                                    .scheme(url.getProtocol())
+                                    .authority(url.getAuthority())
+                                    .appendPath(url.getPath());
+                            uri = builder.build();
+                        } catch (MalformedURLException e1) {
+                            e1.printStackTrace();
+                        }
+                        ImageView recipeIcon = findViewById(R.id.recipe_icon);
+                        recipeIcon.setImageURI(uri);
+                        newDishData.setImageUri(uri.toString());
+                        dialog.cancel();
+                    }
+                });
+
+
+
+        AlertDialog alert11 = builder.create();
+        alert11.show();
+
     }
 
     @Override
@@ -272,7 +330,6 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
             ImageView recipeIcon = findViewById(R.id.recipe_icon);
             recipeIcon.setImageURI(data.getData());
             String imgUriStr = data.getData().toString();
-            Log.d("imgUriStr in NewDish: ", imgUriStr);
             newDishData.setImageUri(imgUriStr);
         }
     }
