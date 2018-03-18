@@ -4,21 +4,17 @@ import android.annotation.SuppressLint;
 import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class GroceriesActivity extends AppCompatActivity {
     private final String TAG = "GroceriesActivity";
@@ -31,9 +27,7 @@ public class GroceriesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_groceries);
-//        final SwipeMenuListView listView = (SwipeMenuListView) findViewById(R.id.grocery_container_list_view);
 
-//        listView.add/
         FileInputStream ifile = null;
         ObjectInputStream in = null;
         MealList lstOfMeals = null;
@@ -166,7 +160,5 @@ public class GroceriesActivity extends AppCompatActivity {
             arrOfGroceriesList.set(i, model.toString());
             adapter.notifyDataSetChanged();
         }
-
-
     }
 }
