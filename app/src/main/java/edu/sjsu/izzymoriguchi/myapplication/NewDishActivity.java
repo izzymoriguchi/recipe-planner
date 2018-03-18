@@ -6,6 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Environment;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -24,20 +27,27 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
+
+
 
 public class NewDishActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     public static String filename = "recipes.ser";
+    public static String downloadedImageFileName = "downloaded_image.jpeg";
     private ArrayList<String> items;
     private ArrayAdapter<String> dataAdapter;
     private Spinner[] spinners;
@@ -50,6 +60,9 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_dish);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         spinners = new Spinner[10];
         spinners[0] = (Spinner) findViewById(R.id.item1_spinner);
         spinners[1] = (Spinner) findViewById(R.id.item2_spinner);
@@ -293,23 +306,11 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
                 "Load from given URL",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
-
-                        Log.d("IZZY", input.getText().toString());
                         String imageURL = input.getText().toString();
 
-                        URL url;
-                        Uri uri = null;
-                        try {
-                            url = new URL(imageURL);
-                            Uri.Builder builder =  new Uri.Builder()
-                                    .scheme(url.getProtocol())
-                                    .authority(url.getAuthority())
-                                    .appendPath(url.getPath());
-                            uri = builder.build();
-                        } catch (MalformedURLException e1) {
-                            e1.printStackTrace();
-                        }
+                        downloadFromUrl(imageURL);
+                        Uri uri = Uri.parse(getFilesDir() + File.separator + downloadedImageFileName);
+
                         ImageView recipeIcon = findViewById(R.id.recipe_icon);
                         recipeIcon.setImageURI(uri);
                         newDishData.setImageUri(uri.toString());
@@ -317,11 +318,8 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
                     }
                 });
 
-
-
         AlertDialog alert11 = builder.create();
         alert11.show();
-
     }
 
     @Override
@@ -441,5 +439,31 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
             ex.printStackTrace();
         }
         return false;
+    }
+
+    public void downloadFromUrl(String imageURL) {  //this is the downloader method
+        try {
+            URL url = new URL(imageURL); //you can write here any link
+            File file = new File(this.getFilesDir(), downloadedImageFileName);
+
+            URLConnection ucon = url.openConnection();
+
+            InputStream is = ucon.getInputStream();
+            BufferedInputStream bis = new BufferedInputStream(is);
+
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream(50);
+            byte[] data = new byte[50];
+            int current = 0;
+
+            while((current = bis.read(data,0,data.length)) != -1){
+                buffer.write(data,0,current);
+            }
+            FileOutputStream out = new FileOutputStream(file);
+            out.write(buffer.toByteArray());
+            out.close();
+
+        } catch (IOException e) {
+            Log.d("ImageManager", "Error: " + e);
+        }
     }
 }
