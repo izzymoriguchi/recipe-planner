@@ -277,9 +277,6 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
         }
     }
 
-    //content://com.android.providers.media.documents/document/image%3A29991
-    //content: content://com.android.providers.media.documents/document/image%3A29991
-
     private class GenericTextWatcher implements TextWatcher {
 
         private View view;
