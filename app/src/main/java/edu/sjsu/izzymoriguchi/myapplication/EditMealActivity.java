@@ -113,25 +113,38 @@ public class EditMealActivity extends AppCompatActivity implements AdapterView.O
         EditText qty10 = (EditText) findViewById(R.id.item10_spinner_qty);
         String[] lstOfQty = newDishData.getListOfQty();
 
+        for (int i = 0; i < lstOfQty.length; i++) {
+            Log.d("ListOfQuty", i +  " -> " + lstOfQty[i]);
+        }
+
         if (lstOfQty[0] != null) {
             qty1.setText(lstOfQty[0]);
-        } else if (lstOfQty[1] != null){
+        }
+        if (lstOfQty[1] != null){
             qty2.setText(lstOfQty[1]);
-        } else if (lstOfQty[2] != null) {
+        }
+        if (lstOfQty[2] != null) {
             qty3.setText(lstOfQty[2]);
-        } else if (lstOfQty[3] != null) {
+        }
+        if (lstOfQty[3] != null) {
             qty4.setText(lstOfQty[3]);
-        } else if (lstOfQty[4] != null) {
+        }
+        if (lstOfQty[4] != null) {
             qty5.setText(lstOfQty[4]);
-        } else if (lstOfQty[5] != null) {
+        }
+        if (lstOfQty[5] != null) {
             qty6.setText(lstOfQty[5]);
-        } else if (lstOfQty[6] != null) {
+        }
+        if (lstOfQty[6] != null) {
             qty7.setText(lstOfQty[6]);
-        } else if (lstOfQty[7] != null) {
+        }
+        if (lstOfQty[7] != null) {
             qty8.setText(lstOfQty[7]);
-        } else if (lstOfQty[8] != null) {
+        }
+        if (lstOfQty[8] != null) {
             qty9.setText(lstOfQty[8]);
-        } else if (lstOfQty[9] != null) {
+        }
+        if (lstOfQty[9] != null) {
             qty10.setText(lstOfQty[9]);
         }
 
@@ -160,23 +173,32 @@ public class EditMealActivity extends AppCompatActivity implements AdapterView.O
         String[] lstOfUnits = newDishData.getListOfIUnit();
         if (lstOfUnits[0] != null) {
             unit1.setText(lstOfUnits[0]);
-        } else if (lstOfUnits[1] != null){
+        }
+        if (lstOfUnits[1] != null){
             unit2.setText(lstOfUnits[1]);
-        } else if (lstOfUnits[2] != null) {
+        }
+        if (lstOfUnits[2] != null) {
             unit3.setText(lstOfUnits[2]);
-        } else if (lstOfUnits[3] != null) {
+        }
+        if (lstOfUnits[3] != null) {
             unit4.setText(lstOfUnits[3]);
-        } else if (lstOfUnits[4] != null) {
+        }
+        if (lstOfUnits[4] != null) {
             unit5.setText(lstOfUnits[4]);
-        } else if (lstOfUnits[5] != null) {
+        }
+        if (lstOfUnits[5] != null) {
             unit6.setText(lstOfUnits[5]);
-        } else if (lstOfUnits[6] != null) {
+        }
+        if (lstOfUnits[6] != null) {
             unit7.setText(lstOfUnits[6]);
-        } else if (lstOfUnits[7] != null) {
+        }
+        if (lstOfUnits[7] != null) {
             unit8.setText(lstOfUnits[7]);
-        } else if (lstOfUnits[8] != null) {
+        }
+        if (lstOfUnits[8] != null) {
             unit9.setText(lstOfUnits[8]);
-        } else if (lstOfUnits[9] != null) {
+        }
+        if (lstOfUnits[9] != null) {
             unit10.setText(lstOfUnits[9]);
         }
         unit1.addTextChangedListener(new EditMealActivity.GenericTextWatcher(unit1));

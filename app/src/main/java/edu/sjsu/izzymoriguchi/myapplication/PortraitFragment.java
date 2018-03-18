@@ -73,7 +73,6 @@ public class PortraitFragment extends Fragment {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-//                    Toast.makeText(view.getContext(), "Changed the count", Toast.LENGTH_SHORT).show();
                 }
             });
 
