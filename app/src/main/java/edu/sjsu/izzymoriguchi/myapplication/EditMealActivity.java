@@ -313,8 +313,6 @@ public class EditMealActivity extends AppCompatActivity implements AdapterView.O
             in = new ObjectInputStream(ifile);
             lstOfMeals = (MealList) in.readObject();
             meals = lstOfMeals.getListOfMeals();
-//            meals.remove(index); // TODO: Make sure if this works
-//            meals.add(index, newDishData);
             meals.set(index, newDishData);
 
             in.close();

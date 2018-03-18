@@ -141,6 +141,7 @@ public class GroceriesActivity extends AppCompatActivity {
         GroceriesModel model = groceriesData.get(pos);
         int i = arrOfGroceriesList.indexOf(model.toString());
         arrOfGroceriesList.remove(i);
+        groceriesData.remove(pos);
         adapter.notifyDataSetChanged();
     }
 
