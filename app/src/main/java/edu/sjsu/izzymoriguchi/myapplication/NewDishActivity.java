@@ -37,8 +37,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -201,8 +199,6 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
             }
         }
         String item = adapterView.getItemAtPosition(i).toString();
-        Toast.makeText(adapterView.getContext(),
-                "Selected position : " + i, Toast.LENGTH_SHORT).show();
         if (i > 0) {
             newDishData.setNameOfIngredientByIndex(spinnerIndex, item);
         }
@@ -224,7 +220,6 @@ public class NewDishActivity extends AppCompatActivity implements AdapterView.On
         ArrayList<NewDishModel> meals;
         MealList lstOfMeals;
 
-        Toast.makeText(this, "Trying to save" + newDishData.getNameOfDish() , Toast.LENGTH_SHORT).show();
         if (hasDuplicate) {
             Toast.makeText(this, "Can't save since" + newDishData.getNameOfDish() + " already exists.", Toast.LENGTH_SHORT).show();
             return;

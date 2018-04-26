@@ -17,8 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 
 
@@ -35,15 +33,7 @@ public class LandscapeFragment extends Fragment {
     }
 
     @Override
-    public void onDestroyView() {
-
-        super.onDestroyView();
-        Toast.makeText(this.getActivity(), "Destroy Landscape", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("LandscapeFragment " , "onCreateView is called");
         v = inflater.inflate(R.layout.fragment_landscape, container, false);
 
         recipeDetails = (RelativeLayout) v.findViewById(R.id.recipe_information);
@@ -53,23 +43,17 @@ public class LandscapeFragment extends Fragment {
         if (retainedFragment == null) {
             Log.d("RetainedFragment " , "is Null in landscape view");
         } else {
-            Log.d("RetainedFragment " , "is retained in portrait view");
             bundle = retainedFragment.getBundle();
             final MealList mealList = (MealList) bundle.getSerializable(RecipesActivity.MEAL_DATA_KEY);
             final ArrayList<NewDishModel> meals = mealList.getListOfMeals();
             String[] recipeNamesArray = new String[meals.size()];
             for (int i = 0; i < meals.size(); i++) {
                 recipeNamesArray[i] = meals.get(i).getNameOfDish();
-                Log.d("Izzy: ", meals.get(i).getNameOfDish() + ": qty of " + meals.get(i).getListOfItemName()[0] + " : " + meals.get(i).getListOfQty()[0]);
-                Log.d("Izzy: ", meals.get(i).getNameOfDish() + ": qty of " + meals.get(i).getListOfItemName()[1] + " : " + meals.get(i).getListOfQty()[1]);
-                Log.d("Izzy: ", meals.get(i).getNameOfDish() + ": qty of " + meals.get(i).getListOfItemName()[2] + " : " + meals.get(i).getListOfQty()[2]);
             }
             ArrayAdapter arrayAdapter = new ArrayAdapter<String>(v.getContext(),
                     R.layout.activity_listview_landscape, recipeNamesArray);
             ListView myListView = (ListView) v.findViewById(R.id.recipe_list_view_landscape);
             myListView.setAdapter(arrayAdapter);
-
-
 
             myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -117,7 +101,6 @@ public class LandscapeFragment extends Fragment {
             });
 
         }
-        Toast.makeText(v.getContext(), "Landscape OncreateView", Toast.LENGTH_SHORT).show();
         return v;
     }
 

@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -32,16 +31,9 @@ public class PortraitFragment extends Fragment {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        Toast.makeText(this.getActivity(), "Destroy portrait", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_portrait, container, false);;
-        Log.d("PortraitFragment " , "onCreateView is called");
         FragmentManager fragmentManager = getFragmentManager();
 
         RetainedFragment retainedFragment = (RetainedFragment) fragmentManager.findFragmentByTag(RecipesActivity.TAG_RETAINED_FRAGMENT);
@@ -90,7 +82,6 @@ public class PortraitFragment extends Fragment {
                 }
             });
         }
-        Toast.makeText(v.getContext(), "Portrait OncreateView", Toast.LENGTH_SHORT).show();
         return v;
     }
 }

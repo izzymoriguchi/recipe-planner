@@ -300,7 +300,6 @@ public class EditMealActivity extends AppCompatActivity implements AdapterView.O
         ArrayList<NewDishModel> meals;
         MealList lstOfMeals;
 
-        Toast.makeText(this, "Trying to save" + newDishData.getNameOfDish() , Toast.LENGTH_SHORT).show();
         if (hasDuplicate) {
             Toast.makeText(this, "Can't save since" + newDishData.getNameOfDish() + " already exists.", Toast.LENGTH_SHORT).show();
             return;
